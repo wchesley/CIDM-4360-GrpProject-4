@@ -5,7 +5,10 @@ namespace HW4
 {
     class InvoiceEntry
     {
-        InvoiceEntry invoice;
+        public InvoiceEntry(List<Item> item)
+        {
+
+        }
         int LineNo; //a sequence number shows the line of the item in the invoice,
         int Qnty; // an int number shows the number of itemunits sold in that line
 
@@ -13,12 +16,6 @@ namespace HW4
         public int getLineNumber()
         {
             return LineNo;
-        }
-
-        public int setLineNumber( int lineNum)
-        {
-            LineNo = lineNum;
-            return lineNum;
         }
 
         public int getQnty()
