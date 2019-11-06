@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HW4
 {
@@ -9,11 +10,22 @@ namespace HW4
         int InvNum; // invoice number
         string nvDate = "";//invoice date (a stringlike “10/10/2019”)
 
-        int total; // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice)
-    
-        public void newInvoceEntry(InvoiceEntry invoice)
+        public int total  {
+            get{
+                return total;
+            }
+            set{
+               Invoice.updateTotal(total); 
+            }
+        } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice)
+        List<Item> invoiceList = new List<Item>(); 
+        public void newInvoiceEntry(List<Item> item)
         {
-            
+            //should take the whole item object and added it to the invoice. 
+            for(int i=0;i>=item.Count;i++)
+            {
+                invoiceList.Add(item[i]); 
+            }
         }
 
 
@@ -23,20 +35,34 @@ namespace HW4
             nvDate = invoiceDate;
         } 
 
-        public int addInvEntry(int item, int ReqQuantity)
-        {}
+        public void addInvEntry(List<Item> item, int ReqQuantity)
+        {
+            InvoiceEntry lineItem = new InvoiceEntry(item); 
+        }
 
-        public removeInvEntry( lineNumber )
-        {}
+        public void removeInvEntry(int lineNumber )
+        {
+            invoiceList.RemoveAt(lineNumber);
+        }
 
-        public updateTotal( newValue)
-        {}
+        public static int updateTotal(int newValue)
+        {
+            return newValue; 
+        }
 
-        public updateLineNumbers()
-        {}
+        public void updateLineNumbers()
+        {
 
-        public printInvoice()
-        {}
+        }
+
+        public void printInvoice()
+        {
+
+        }
+        private void setLineNumber(int newLineNumber)
+        {
+
+        }
     
     }
 }
