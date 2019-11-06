@@ -21,10 +21,18 @@ namespace HW4
 
         public float updateAvlblQty( float PassedValue)
         {
-            float NewavallableQty = avallableQty - PassedValue;
-            NewavallableQty = avallableQty + PassedValue;
+            //Need to verify we have inventory before changing the value
+            if(avallableQty>=0){
+                // PassedValue can be positive, negative or zero:
+                float NewavallableQty = avallableQty + PassedValue;
+                return NewavallableQty;
+            }
+            else{
+                //Should return 0, if there is nothing in inventory. 
+                return avallableQty; 
+            }
+             
             
-            return NewavallableQty;
         }
         public float getPrice()
         {
