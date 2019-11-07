@@ -7,10 +7,10 @@ namespace HW4
     {
         int ID; //int number represents the Id of theitem
         string Description; //string describes the item e.g. "Groceries #5"
-        float avallableQty; //loat (decimal) number represents the available Quantity (must always be greater than or equal 0, so you need to verify before any attempt to change it)
+       public float avallableQty; //loat (decimal) number represents the available Quantity (must always be greater than or equal 0, so you need to verify before any attempt to change it)
         float UnitPrice; //item’s unitPrice.
 
-        public  Item(int id, string description, float price, float avaliQuan)
+        public Item(int id, string description, float price, float avaliQuan)
         {
             ID = id;
             Description = description;
@@ -21,10 +21,16 @@ namespace HW4
 
         public float updateAvlblQty( float PassedValue)
         {
-            float NewavallableQty = avallableQty - PassedValue;
-            NewavallableQty = avallableQty + PassedValue;
-            
-            return NewavallableQty;
+           //Need to verify we have inventory before changing the value
+            if(avallableQty>=0){
+                // PassedValue can be positive, negative or zero:
+                float NewavallableQty = avallableQty + PassedValue;
+                return NewavallableQty;
+            }
+            else{
+                //Should return 0, if there is nothing in inventory. 
+                return avallableQty; 
+            }
         }
         public float getPrice()
         {

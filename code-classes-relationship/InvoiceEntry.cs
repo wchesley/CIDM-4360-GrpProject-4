@@ -5,21 +5,29 @@ namespace HW4
 {
     class InvoiceEntry
     {
-        InvoiceEntry invoice;
+        List<Item> ItemObjects = new List<Item>();
+        public InvoiceEntry(List<Item> item, int ReqQantity)
+        {
+
+        }
+
+        public InvoiceEntry(Item item, int reqQuantity)
+        {
+            this.item = item;
+            this.reqQuantity = reqQuantity;
+        }
+
         int LineNo; //a sequence number shows the line of the item in the invoice,
         int Qnty; // an int number shows the number of itemunits sold in that line
-
+        private Item item;
+        private int reqQuantity;
 
         public int getLineNumber()
         {
             return LineNo;
         }
 
-        public int setLineNumber( int lineNum)
-        {
-            LineNo = lineNum;
-            return lineNum;
-        }
+        
 
         public int getQnty()
         {
