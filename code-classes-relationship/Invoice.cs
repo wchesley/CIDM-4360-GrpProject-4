@@ -18,14 +18,9 @@ namespace HW4
                Invoice.updateTotal(total); 
             }
         } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice)
-        List<Item> invoiceList = new List<Item>(); 
         public void newInvoiceEntry(List<Item> item)
         {
-            //should take the whole item object and added it to the invoice. 
-            for(int i=0;i>=item.Count;i++)
-            {
-                invoiceList.Add(item[i]); 
-            }
+
         }
 
 
@@ -35,9 +30,23 @@ namespace HW4
             nvDate = invoiceDate;
         } 
 
-        public void addInvEntry(List<Item> item, int ReqQuantity)
+        ///<summary>
+        ///Creates a new invoice entry (InvoiceEntry object ) and add it to the invoice.  
+        ///It first calculates the new entry’s line number, then use the new line number together with the passed (item) object 
+        ///and the requested quantity (ReqQuantity) to call the InvoiceEntry Constructor to create the new InvoiceEntry object. 
+        ///Finally, adds the object to the invoice.  This method must use the passed item object to check the 
+        ///requested quantity against the item’s available quantity before creating and adding the new entry. 
+        ///It also must update the item’s available quantity based on the requested quantity if quantity verification is passed.
+        ///</summary>
+        public void addInvEntry(Item item, int ReqQuantity)
         {
-            InvoiceEntry lineItem = new InvoiceEntry(item); 
+            InvoiceEntry LineItem = new InvoiceEntry(item, 5, ReqQuantity);
+            //check to see if we have enough in inventory, 
+            //if so update the remaining available quantity
+            if(item.updateAvlblQty(ReqQuantity) != -1 || item.updateAvlblQty(ReqQuantity) != 0)
+            {
+                item.avallableQty = ReqQuantity - item.avallableQty;
+            }
         }
 
         public void removeInvEntry(int lineNumber )
@@ -50,19 +59,16 @@ namespace HW4
             return newValue; 
         }
 
-        public void updateLineNumbers()
+        private static void updateLineNumbers()
         {
 
         }
 
         public void printInvoice()
         {
-
+            Console.WriteLine($"Invoice No:{InvNum}\nCreated on:{nvDate}\nTotal:{total}"); 
         }
-        private void setLineNumber(int newLineNumber)
-        {
-
-        }
+        
     
     }
 }
