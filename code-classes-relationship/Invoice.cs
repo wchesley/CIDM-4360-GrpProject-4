@@ -9,13 +9,14 @@ namespace HW4
 
         int InvNum; // invoice number
         string nvDate = "";//invoice date (a stringlike “10/10/2019”)
+        private static List<Item> invoiceList = new List<Item>(); 
 
-        public int total  {
+        public static float total  {
             get{
                 return total;
             }
             set{
-               Invoice.updateTotal(total); 
+                
             }
         } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice)
         public void newInvoiceEntry(List<Item> item)
@@ -38,31 +39,47 @@ namespace HW4
         ///requested quantity against the item’s available quantity before creating and adding the new entry. 
         ///It also must update the item’s available quantity based on the requested quantity if quantity verification is passed.
         ///</summary>
-        public void addInvEntry(Item item, int ReqQuantity)
-        {
-            InvoiceEntry LineItem = new InvoiceEntry(item, 5, ReqQuantity);
+        public bool addInvEntry(Item item, int ReqQuantity)
+        {   
+            invoiceList.Add(item);
+            //List<List>.IndexOf() should return 0 based index of the item we are searching for
+            //for logical reasons I added 1 so our lineitems don't start at 0: 
+            // ref: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.indexof?view=netframework-4.8 
+            InvoiceEntry LineItem = new InvoiceEntry(item, invoiceList.IndexOf(item)+1, ReqQuantity);
+
             //check to see if we have enough in inventory, 
-            //if so update the remaining available quantity
-            if(item.updateAvlblQty(ReqQuantity) != -1 || item.updateAvlblQty(ReqQuantity) != 0)
+            float itemInInventory = item.updateAvlblQty(ReqQuantity);
+            if(itemInInventory != -1)
             {
-                item.avallableQty = ReqQuantity - item.avallableQty;
-                item.avallableQty = item.avallableQty - ReqQuantity; 
+                //we have enough in inventory; update the avallable quantity: 
+                item.avallableQty = item.avallableQty - ReqQuantity;
+                //updateTotal(ReqQuantity); 
+                return true;
+            }
+            return false; 
+        }
+
+        public bool removeInvEntry(int lineNumber )
+        {
+            try{
+            invoiceList.RemoveAt(lineNumber);
+            return true;
+            }
+            catch(IndexOutOfRangeException e){
+                Console.WriteLine($"ERROR:{e}");
+                return false;
             }
         }
 
-        public void removeInvEntry(int lineNumber )
+        private static float updateTotal(float newValue)
         {
-            invoiceList.RemoveAt(lineNumber);
-        }
-
-        public static int updateTotal(int newValue)
-        {
-            return newValue; 
+            //again assume newValue can be positive or negative: 
+            return total = total + newValue;
         }
 
         private static void updateLineNumbers()
         {
-
+            //using a list will auto update our line numbers? maybe...
         }
 
         public void printInvoice()
