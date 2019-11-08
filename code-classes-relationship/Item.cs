@@ -20,16 +20,48 @@ namespace HW4
 
         public float updateAvlblQty( float PassedValue)
         {
+            float NewavallableQty; 
             //Need to verify we have inventory before changing the value
             if(avallableQty>=0){
                 // PassedValue can be positive, negative or zero:
-                float NewavallableQty = avallableQty + PassedValue;
-                // Check to see if we have enough in inventory: 
-                if(NewavallableQty >=0){
-                    return NewavallableQty;
+                // Math.Sign() returns the following:
+                // -1 for negative numbers
+                // 1 for positive numbers
+                // 0 for Zero
+                // ref: https://docs.microsoft.com/en-us/dotnet/api/system.math.sign?redirectedfrom=MSDN&view=netframework-4.8#overloads
+                int PosOrNeg = Math.Sign(PassedValue);
+                Console.WriteLine($"POS or NEG?: {PosOrNeg.ToString()}");
+                if(PosOrNeg == 1){
+                    NewavallableQty = avallableQty - PassedValue;
+                    Console.WriteLine($"NEW QNTY: {NewavallableQty.ToString()}\nAVAL QNTY: {avallableQty.ToString()}\nPASSED VALUE: {PassedValue.ToString()}"); 
+                    PosOrNeg = Math.Sign(NewavallableQty);
+                    Console.WriteLine($"POS or NEG? AGAIN: {PosOrNeg.ToString()}");
+                    if(PosOrNeg == -1){
+                        return PosOrNeg;
+                    }
+                    else{
+                        avallableQty = NewavallableQty;
+                        return avallableQty;
+                    }
                 }
-                // return -1 if we don't have enough in inventory? would need error handling within the Invoice; 
-                return -1;
+                if(PosOrNeg == -1){
+                    NewavallableQty = avallableQty + PassedValue;
+                     Console.WriteLine($"NEW QNTY: {NewavallableQty.ToString()}\nAVAL QNTY: {avallableQty.ToString()}\nPASSED VALUE: {PassedValue.ToString()}"); 
+                    PosOrNeg = Math.Sign(NewavallableQty);
+                    if(PosOrNeg == -1){
+                        return PosOrNeg;
+                    }
+                    else{
+                        return NewavallableQty;
+                    }
+                }
+                //NewavallableQty = avallableQty + PassedValue;
+                // Check to see if we have enough in inventory: 
+                //if(NewavallableQty >=0){
+                    //return NewavallableQty;
+                //}
+                // return  if we don't have enough in inventory? would need error handling within the Invoice; 
+                return 0;
             }
             else{
                 //Should return 0, if there is nothing in inventory. 
