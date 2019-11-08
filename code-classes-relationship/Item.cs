@@ -22,9 +22,11 @@ namespace HW4
         {
             float NewavallableQty; 
             //Need to verify we have inventory before changing the value
-            if(avallableQty>=0){
-                NewavallableQty = avallableQty - PassedValue; 
-                if(NewavallableQty>= 0){
+            if(avallableQty >= 0){
+                NewavallableQty = avallableQty - PassedValue;
+                
+                //new available quantity is greater than 0 and not negative: 
+                if(NewavallableQty >= 0 && Math.Sign(NewavallableQty) != -1){
                     return NewavallableQty;
                 }
                 else return -1;
