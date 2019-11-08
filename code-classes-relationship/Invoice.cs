@@ -46,6 +46,7 @@ namespace HW4
             if(item.updateAvlblQty(ReqQuantity) != -1 || item.updateAvlblQty(ReqQuantity) != 0)
             {
                 item.avallableQty = ReqQuantity - item.avallableQty;
+                item.avallableQty = item.avallableQty - ReqQuantity; 
             }
         }
 
