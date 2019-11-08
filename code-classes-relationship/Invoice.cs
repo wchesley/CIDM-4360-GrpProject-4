@@ -8,6 +8,8 @@ namespace HW4
 
         int InvNum; // invoice number
         string nvDate = "";//invoice date (a stringlike “10/10/2019”)
+        int lineNO = 0;
+        
         
          public int total  {
             get{
@@ -18,7 +20,7 @@ namespace HW4
             }
         } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice    
        List<Item> invoiceList = new List<Item>(); 
-       
+       List<InvoiceEntry> LineItems = new List<InvoiceEntry>();
         public void newInvoiceEntry(List<Item> item)
         {
             //should take the whole item object and added it to the invoice. 
@@ -35,28 +37,34 @@ namespace HW4
             nvDate = invoiceDate;
         } 
 
-        public void addInvEntry(Item item, int ReqQuantity)
-        {
-            if (item.avallableQty > ReqQuantity){         
-                InvoiceEntry invoice = new InvoiceEntry(item, ReqQuantity);
-                item.avallableQty = item.avallableQty - ReqQuantity;
-            }
-        }
+        // public float addInvEntry(Item Ad, int ReqQuantity)
+        // {
+        //     if (item.avallableQty > ReqQuantity){         
+        //         InvoiceEntry invoice = new InvoiceEntry(item, ReqQuantity);
+        //         item.avallableQty = item.avallableQty - ReqQuantity;
+        //     }
+        //     return item.avallableQty;
+        // }
 
         public void removeInvEntry(int lineNumber )
         {
             invoiceList.RemoveAt(lineNumber);
         }
 
-        public static int updateTotal(int newValue)
-        {
+        public static float updateTotal(float newValue)
+        {             
             Invoice.updateTotal(newValue); 
             return newValue; 
         }
 
         public void updateLineNumbers()
         {
-
+             int Cntr = 1; // 
+            foreach(InvoiceEntry e in LineItems)
+            {
+                e.setLineNumber(Cntr);
+                Cntr++;
+            }   
         }
 
         public void printInvoice()
