@@ -6,7 +6,7 @@ namespace HW4
     class InvoiceEntry
     {
         ///<summary>
-        ///Use the new line number together with the passed (item) object 
+        ///Use the new line number (lineNo) together with the passed (item) object 
         ///and the requested quantity (ReqQuantity) to call the InvoiceEntry Constructor to create the new InvoiceEntry object.
         ///</summary>
         public InvoiceEntry(Item item, int lineNo, int ReqQuantity)
