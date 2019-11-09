@@ -16,12 +16,18 @@ namespace HW4
                 return total;
             }
             set{
-                
+               Invoice.updateTotal(total); 
             }
-        } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice)
+        } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice    
+       List<Item> invoiceList = new List<Item>(); 
+       List<InvoiceEntry> LineItems = new List<InvoiceEntry>();
         public void newInvoiceEntry(List<Item> item)
         {
-
+            //should take the whole item object and added it to the invoice. 
+            for(int i=0;i>=item.Count;i++)
+            {
+                invoiceList.Add(item[i]); 
+            }
         }
 
 

@@ -16,6 +16,18 @@ namespace HW4
         }
         int LineNo; //a sequence number shows the line of the item in the invoice,
         int Qnty; // an int number shows the number of itemunits sold in that line
+        
+        Item AddedItem;
+
+        private int reqQuantity;
+
+        public InvoiceEntry(int Lnumber, int Quantity, Item additem  )
+        {
+            LineNo = Lnumber;
+            Qnty = Quantity;
+            AddedItem = additem;
+        }
+
 
         public void setLineNumber(int newLineNumber)
         {
@@ -25,10 +37,18 @@ namespace HW4
         {
             return LineNo;
         }
+        }
 
         public int getQnty()
         {
             return Qnty;
         }
+
+        public Item GetItem()
+        {
+            return AddedItem;
+        }
+
+
     }
 }

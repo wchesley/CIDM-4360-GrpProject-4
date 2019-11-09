@@ -10,7 +10,7 @@ namespace HW4
         public float avallableQty; //loat (decimal) number represents the available Quantity (must always be greater than or equal 0, so you need to verify before any attempt to change it)
         public float UnitPrice; //item’s unitPrice.
 
-        public  Item(int id, string description, float price, float avaliQuan)
+        public Item(int id, string description, float price, float avaliQuan)
         {
             ID = id;
             Description = description;
