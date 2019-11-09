@@ -5,6 +5,9 @@ namespace HW4
 {
     class InvoiceEntry
     {
+        int LineNo; //a sequence number shows the line of the item in the invoice,
+        int Qnty; // an int number shows the number of itemunits sold in that line
+
         ///<summary>
         ///Use the new line number (lineNo) together with the passed (item) object 
         ///and the requested quantity (ReqQuantity) to call the InvoiceEntry Constructor to create the new InvoiceEntry object.
@@ -14,41 +17,26 @@ namespace HW4
             LineNo = lineNo;
             Qnty = ReqQuantity;
         }
-        int LineNo; //a sequence number shows the line of the item in the invoice,
-        int Qnty; // an int number shows the number of itemunits sold in that line
-        
-        Item AddedItem;
 
-        private int reqQuantity;
-
-        public InvoiceEntry(int Lnumber, int Quantity, Item additem  )
+        public InvoiceEntry(int Lnumber, int Quantity)
         {
             LineNo = Lnumber;
             Qnty = Quantity;
-            AddedItem = additem;
         }
-
 
         public void setLineNumber(int newLineNumber)
         {
-            LineNo = newLineNumber; 
+            LineNo = newLineNumber;
         }
+
         public int getLineNumber()
         {
             return LineNo;
-        }
         }
 
         public int getQnty()
         {
             return Qnty;
         }
-
-        public Item GetItem()
-        {
-            return AddedItem;
-        }
-
-
     }
 }
