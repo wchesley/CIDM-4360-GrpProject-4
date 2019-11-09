@@ -9,33 +9,17 @@ namespace HW4
 
         int InvNum; // invoice number
         string nvDate = "";//invoice date (a stringlike “10/10/2019”)
-        private static List<Item> invoiceList = new List<Item>(); 
 
-        public static float total  {
-            get{
-                return total;
-            }
-            set{
-               Invoice.updateTotal(total); 
-            }
-        } // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice    
-       List<Item> invoiceList = new List<Item>(); 
-       List<InvoiceEntry> LineItems = new List<InvoiceEntry>();
-        public void newInvoiceEntry(List<Item> item)
-        {
-            //should take the whole item object and added it to the invoice. 
-            for(int i=0;i>=item.Count;i++)
-            {
-                invoiceList.Add(item[i]); 
-            }
-        }
+        public static float total;  // sum of the prices of all items in the invoice (must be updated whenever an item added/removed from the invoice    
 
+        List<InvoiceEntry> LineItems = new List<InvoiceEntry>();
+        private static List<Item> invoiceList = new List<Item>();
 
-        public Invoice( int invoiceNumber, string invoiceDate)
+        public Invoice(int invoiceNumber, string invoiceDate)
         {
             InvNum = invoiceNumber;
             nvDate = invoiceDate;
-        } 
+        }
 
         ///<summary>
         ///Creates a new invoice entry (InvoiceEntry object ) and add it to the invoice.  
@@ -46,32 +30,37 @@ namespace HW4
         ///It also must update the item’s available quantity based on the requested quantity if quantity verification is passed.
         ///</summary>
         public bool addInvEntry(Item item, int ReqQuantity)
-        {   
+        {
             invoiceList.Add(item);
-            //List<List>.IndexOf() should return 0 based index of the item we are searching for
-            //for logical reasons I added 1 so our lineitems don't start at 0: 
+            // List<List>.IndexOf() should return 0 based index of the item we are searching for
+            // for logical reasons I added 1 so our lineitems don't start at 0: 
             // ref: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.indexof?view=netframework-4.8 
-            InvoiceEntry LineItem = new InvoiceEntry(item, invoiceList.IndexOf(item)+1, ReqQuantity);
+            updateTotal(item.UnitPrice);
+            InvoiceEntry LineItem = new InvoiceEntry(item, invoiceList.IndexOf(item) + 1, ReqQuantity);
 
             //check to see if we have enough in inventory, 
             float itemInInventory = item.updateAvlblQty(ReqQuantity);
-            if(itemInInventory != -1)
+            if (itemInInventory != -1)
             {
                 //we have enough in inventory; update the avallable quantity: 
                 item.avallableQty = item.avallableQty - ReqQuantity;
                 //updateTotal(ReqQuantity); 
                 return true;
             }
-            return false; 
+            return false;
         }
 
-        public bool removeInvEntry(int lineNumber )
+        public bool removeInvEntry(int lineNumber)
         {
-            try{
-            invoiceList.RemoveAt(lineNumber);
-            return true;
+            try
+            {
+                updateTotal(-invoiceList[lineNumber].UnitPrice);
+                // zero based index :/
+                invoiceList.RemoveAt(lineNumber - 1);
+                return true;
             }
-            catch(IndexOutOfRangeException e){
+            catch (IndexOutOfRangeException e)
+            {
                 Console.WriteLine($"ERROR:{e}");
                 return false;
             }
@@ -80,7 +69,7 @@ namespace HW4
         private static float updateTotal(float newValue)
         {
             //again assume newValue can be positive or negative: 
-            return total = total + newValue;
+            return total += newValue;
         }
 
         private static void updateLineNumbers()
@@ -90,9 +79,14 @@ namespace HW4
 
         public void printInvoice()
         {
-            Console.WriteLine($"Invoice No:{InvNum}\nCreated on:{nvDate}\nTotal:{total}"); 
+            Console.WriteLine($"\nInvoice No:{InvNum}  Created on: {nvDate} Total:{total}");
+            foreach (var items in invoiceList)
+            {
+                // zero based index again, in hind sight, now that it may be too late: list was not really the way to handle what was requested of us here: 
+                Console.WriteLine($"Line: {invoiceList.IndexOf(items) + 1} Desc: {items.Description}");
+            }
         }
-        
-    
+
+
     }
 }
